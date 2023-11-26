@@ -367,9 +367,8 @@ void spausdinimas(list <studentas> St, string failas)
 
 int pasirinkimas()
 {
-    cout << "Kuri faila norite naudoti? (1 - 5)" << endl;
-    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;" 
-    << endl << "4 - studentai1000000.txt;" << endl << "5 - studentai10000000.txt;" << endl;
+    cout << "Kuri faila norite naudoti? (1 - 3)" << endl;
+    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;";
     int skaicius = skIvedimas();
     return skaicius;
 }
@@ -420,8 +419,6 @@ void generavimas(int sk, string &failas)
     if(sk == 1) n = 1000;
     else if(sk == 2) n = 10000;
     else if(sk == 3) n = 100000;
-    else if(sk == 4) n = 1000000;
-    else if(sk == 5) n = 10000000;
 
     failas = "studentai" + to_string(n) + ".txt";
     
