@@ -4,13 +4,14 @@ void vidMed(list <studentas> &St)
 {
     cout << "Ar norite apskaiciuoti vidurki (kitu atveju bus skaiciuojama mediana)? (t/n) ";
     long dydis = St.size();
-    if(patvirtinimas())
+    if(true)
+    //patvirtinimas()
     { 
 
         std::list<studentas>::iterator it;
         for (it = St.begin(); it != St.end(); ++it){
         {
-        it->glt = galutinis(vidurkis(it->nd), it->egz);
+        it->setGlt(galutinis(vidurkis(it->getNd()), it->getEgz()));
         }  
     }
     }
@@ -19,7 +20,7 @@ void vidMed(list <studentas> &St)
         std::list<studentas>::iterator it;
         for (it = St.begin(); it != St.end(); ++it){
         {
-        it->glt = galutinis(mediana(it->nd), it->egz);
+        it->setGlt(galutinis(mediana(it->getNd()), it->getEgz()));
         }  
     }
     }
@@ -41,21 +42,25 @@ void nuskaitymas(list <studentas> &St, string failas)
 
     while(getline(buffer, eil)) 
     {
-        
         studentas S; 
-        stringstream duom(eil); 
-        duom >> S.pavard >> S.vard;
+        stringstream duom(eil);
+        string pavard, vard; 
+        duom >> pavard >> vard;
+        S.setPavard(pavard);
+        S.setVard(vard);
         int paz;
+        vector <int> nd;
         while(duom >> paz) 
         {   if(paz > 10 || paz < 1 ) throw 2;
-            else S.nd.push_back(paz);
+            else nd.push_back(paz);
         }
-        if(S.nd.size() == 0) throw 3;
-        S.nd.pop_back(); 
-        S.egz = paz;
-        S.glt = 0;
+        if(nd.size() == 0) throw 3;
+        nd.pop_back(); 
+        S.setNd(nd);
+        S.setEgz(paz);
+        // S.setGlt(0);
         St.push_back(S);
-        S.nd.clear();
+        nd.clear();
     }
     }catch (int e) 
     {
@@ -89,8 +94,9 @@ void pagalbine(list <studentas> &St)
 
     do
     {
-        S.vard = vardIvedimas("varda");
-        S.pavard = vardIvedimas("pavarde");
+        S.setVard(vardIvedimas("varda"));
+        S.setPavard(vardIvedimas("pavarde"));
+        vector <int> nd;
         cout << "Ar norite pazymius ivesti patys (kitu atveju jie bus sugeneruoti atsitiktinai)? (t/n) ";
         if(patvirtinimas())
         {
@@ -100,14 +106,14 @@ void pagalbine(list <studentas> &St)
             int n = skIvedimas("pazymiu kieki", false);
             for(int j = 0; j < n; j++)
             {
-                S.nd.push_back(skIvedimas("pazymi", true));
+                nd.push_back(skIvedimas("pazymi", true));
             }
         }
         else
         {
             do
             {
-                S.nd.push_back(skIvedimas("pazymi", true));
+                nd.push_back(skIvedimas("pazymi", true));
                 cout << "Ar norite ivesti dar viena pazymi (t/n)? ";
             } while(patvirtinimas());
             
@@ -117,26 +123,26 @@ void pagalbine(list <studentas> &St)
         {
             int n = skIvedimas("pazymiu kieki", false);
 
-            for (int j = 0; j < n; j++) S.nd.push_back(atsitiktiniai());
+            for (int j = 0; j < n; j++) nd.push_back(atsitiktiniai());
             cout << "Atsitiktinai sugeneruoti pazymiai: ";
-            for (int j = 0; j < n - 1; j++) cout << S.nd[j] << ", ";
-            cout << S.nd[n - 1] << "." << endl;
+            for (int j = 0; j < n - 1; j++) cout << nd[j] << ", ";
+            cout << nd[n - 1] << "." << endl;
         }
-
+        S.setNd(nd);
         cout << "Ar norite egzamino bala suvesti patys (kitu atveju jis bus sugeneruotas atsitiktinai)? (t/n) ";
         if(patvirtinimas())
         {
-            S.egz = skIvedimas("egzamino pazymi", true);
+            S.setEgz(skIvedimas("egzamino pazymi", true));
         }
         else
         {
-            S.egz = atsitiktiniai();
-            cout << "Sugeneruotas egzamino balas: " << S.egz << endl;
+            S.setEgz(atsitiktiniai());
+            cout << "Sugeneruotas egzamino balas: " << S.getEgz() << endl;
 
         }
-        S.glt = 0;
+        // S.setGlt(0);
         St.push_back(S);
-        S.nd.clear();
+        nd.clear();
         cout << "Ar norite ivesti dar vieno studento duomenis? (t/n) ";
         
     } while(patvirtinimas());
@@ -309,8 +315,8 @@ int ilgPavarde(list <studentas> St)
     std::list<studentas>::iterator it;
     for (it = St.begin(); it != St.end(); ++it){
     {
-        if(it->pavard.length() > max)
-        max = it->pavard.length();
+        if(it->getPavard().length() > max)
+        max = it->getPavard().length();
     }  
     } 
 
@@ -325,8 +331,8 @@ int ilgVardas(list <studentas> St)
     std::list<studentas>::iterator it;
     for (it = St.begin(); it != St.end(); ++it){
     {
-        if(it->vard.length() > max)
-        max = it->vard.length();
+        if(it->getVard().length() > max)
+        max = it->getVard().length();
     }
     }
 
@@ -352,16 +358,18 @@ void spausdinimas(list <studentas> St, string failas)
 
     for(long int i = 0; i < ilgis; i++)
     {
-        out << left << setw(maxpavard + 10) << St.back().pavard << setw(maxvard + 10) << St.back().vard << fixed << setprecision(2) << St.back().glt << endl;
+        out << left << setw(maxpavard + 10) << St.back().getPavard() << setw(maxvard + 10) << St.back().getVard() << fixed << setprecision(2) << St.back().getGlt() << endl;
         St.pop_back();
     }
+    // St.clear();
 
 }
 
 int pasirinkimas()
 {
     cout << "Kuri faila norite naudoti? (1 - 5)" << endl;
-    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;"<< endl;
+    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;" 
+    << endl << "4 - studentai1000000.txt;" << endl << "5 - studentai10000000.txt;" << endl;
     int skaicius = skIvedimas();
     return skaicius;
 }
@@ -412,6 +420,8 @@ void generavimas(int sk, string &failas)
     if(sk == 1) n = 1000;
     else if(sk == 2) n = 10000;
     else if(sk == 3) n = 100000;
+    else if(sk == 4) n = 1000000;
+    else if(sk == 5) n = 10000000;
 
     failas = "studentai" + to_string(n) + ".txt";
     
@@ -437,8 +447,8 @@ void skirstymas1(list <studentas> St, list <studentas> &Vargsai, list <studentas
 {
     pradzia = std::chrono::steady_clock::now();
 
-    copy_if(St.begin(), St.end(), back_inserter(Genijai), [](studentas const& St) {return St.glt >= 5;});
-    copy_if(St.begin(), St.end(), back_inserter(Vargsai), [](studentas const& St) {return St.glt < 5;});
+    copy_if(St.begin(), St.end(), back_inserter(Genijai), [](studentas const& St) {return St.getGlt() >= 5;});
+    copy_if(St.begin(), St.end(), back_inserter(Vargsai), [](studentas const& St) {return St.getGlt() < 5;});
 
     double pabaiga = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - pradzia).count() / 1000.0;
     cout << endl <<"Sugaistas laikas studentams suskirstyti (1 - oji strategija): " << pabaiga << " s" << endl << endl;  
@@ -448,7 +458,7 @@ void skirstymas2(list <studentas> &St, list <studentas> &Genijai)
 {
     pradzia = std::chrono::steady_clock::now();  
 
-    auto it = stable_partition(St.begin(), St.end(), [](studentas const& St) {return St.glt < 5;});
+    auto it = stable_partition(St.begin(), St.end(), [](studentas const& St) {return St.getGlt() < 5;});
     Genijai.assign(it, St.end());
     St.erase(it, St.end());
 
@@ -461,10 +471,10 @@ void skirstymas3(list <studentas> &St, list <studentas> &Genijai)
     long int n = St.size();
     pradzia = std::chrono::steady_clock::now();
 
-    copy_if(St.begin(), St.end(), back_inserter(Genijai), [](studentas const& St) {return St.glt >= 5;});
-    St.erase(remove_if(St.begin(), St.end(), [](studentas const& St) {return St.glt >= 5;}),St.end());
+    copy_if(St.begin(), St.end(), back_inserter(Genijai), [](studentas const& St) {return St.getGlt() >= 5;});
+    St.erase(remove_if(St.begin(), St.end(), [](studentas const& St) {return St.getGlt() >= 5;}),St.end());
 
     double pabaiga = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - pradzia).count() / 1000.0;
-    cout << endl <<"Sugaistas laikas studentams suskirstyti(2 - oji strategija): " << pabaiga << " s" << endl << endl;  
+    cout << endl <<"Sugaistas laikas studentams suskirstyti (2 - oji strategija): " << pabaiga << " s" << endl << endl;  
 }
 
