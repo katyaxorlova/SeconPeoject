@@ -4,18 +4,19 @@ void vidMed(vector <studentas> &St)
 {
     cout << "Ar norite apskaiciuoti vidurki (kitu atveju bus skaiciuojama mediana)? (t/n) ";
     long dydis = St.size();
-    if(patvirtinimas())
+    if(true)
+    //patvirtinimas()
     { 
-        for(long int j = 0; j < dydis; j++)
+        for(auto &a: St)
         {
-            St[j].glt = galutinis(vidurkis(St[j].nd), St[j].egz);
+            a.setGlt(galutinis(vidurkis(a.getNd()), a.getEgz()));
         }
     }
     else
     {
-        for(long int j = 0; j < dydis; j++)
+        for(auto &a: St)
         {
-            St[j].glt = galutinis(mediana(St[j].nd), St[j].egz);
+            a.setGlt(galutinis(mediana(a.getNd()), a.getEgz())); 
         }
     }
 }
@@ -35,21 +36,25 @@ void nuskaitymas(vector <studentas> &St, string failas)
 
     while(getline(buffer, eil)) 
     {
-        
         studentas S; 
-        stringstream duom(eil); 
-        duom >> S.pavard >> S.vard;
+        stringstream duom(eil);
+        string pavard, vard; 
+        duom >> pavard >> vard;
+        S.setPavard(pavard);
+        S.setVard(vard);
         int paz;
+        vector <int> nd;
         while(duom >> paz) 
         {   if(paz > 10 || paz < 1 ) throw 2;
-            else S.nd.push_back(paz);
+            else nd.push_back(paz);
         }
-        if(S.nd.size() == 0) throw 3;
-        S.nd.pop_back(); 
-        S.egz = paz;
-        S.glt = 0;
+        if(nd.size() == 0) throw 3;
+        nd.pop_back(); 
+        S.setNd(nd);
+        S.setEgz(paz);
+        // S.setGlt(0);
         St.push_back(S);
-        S.nd.clear();
+        nd.clear();
     }
     }catch (int e) 
     {
@@ -83,25 +88,27 @@ void pagalbine(vector <studentas> &St)
 
     do
     {
-        S.vard = vardIvedimas("varda");
-        S.pavard = vardIvedimas("pavarde");
+        S.setVard(vardIvedimas("varda"));
+        S.setPavard(vardIvedimas("pavarde"));
+        vector <int> nd;
         cout << "Ar norite pazymius ivesti patys (kitu atveju jie bus sugeneruoti atsitiktinai)? (t/n) ";
         if(patvirtinimas())
         {
         cout << "Ar norite ivesti pazymiu kieki (t/n)? ";
+        
         if(patvirtinimas())
         {
             int n = skIvedimas("pazymiu kieki", false);
             for(int j = 0; j < n; j++)
             {
-                S.nd.push_back(skIvedimas("pazymi", true));
+                nd.push_back(skIvedimas("pazymi", true));
             }
         }
         else
         {
             do
             {
-                S.nd.push_back(skIvedimas("pazymi", true));
+                nd.push_back(skIvedimas("pazymi", true));
                 cout << "Ar norite ivesti dar viena pazymi (t/n)? ";
             } while(patvirtinimas());
             
@@ -111,34 +118,34 @@ void pagalbine(vector <studentas> &St)
         {
             int n = skIvedimas("pazymiu kieki", false);
 
-            for (int j = 0; j < n; j++) S.nd.push_back(atsitiktiniai());
+            for (int j = 0; j < n; j++) nd.push_back(atsitiktiniai());
             cout << "Atsitiktinai sugeneruoti pazymiai: ";
 
-            for (int j = 0; j < n - 1; j++) cout << S.nd[j] << ", ";
-            cout << S.nd[n - 1] << "." << endl;
+            for (int j = 0; j < n - 1; j++) cout << nd[j] << ", ";
+            cout << nd[n - 1] << "." << endl;
         }
-
+        S.setNd(nd);
         cout << "Ar norite egzamino bala suvesti patys (kitu atveju jis bus sugeneruotas atsitiktinai)? (t/n) ";
         if(patvirtinimas())
         {
-            S.egz = skIvedimas("egzamino pazymi", true);
+            S.setEgz(skIvedimas("egzamino pazymi", true));
         }
         else
         {
-            S.egz = atsitiktiniai();
-            cout << "Sugeneruotas egzamino balas: " << S.egz << endl;
+            S.setEgz(atsitiktiniai());
+            cout << "Sugeneruotas egzamino balas: " << S.getEgz() << endl;
 
         }
-        S.glt = 0;
+        // S.setGlt(0);
         St.push_back(S);
-        S.nd.clear();
+        nd.clear();
         cout << "Ar norite ivesti dar vieno studento duomenis? (t/n) ";
         
     } while(patvirtinimas());
     
 }
 
-bool patvirtinimas()
+bool patvirtinimas() 
 {
     bool tiesa = true;
     bool laik = true;
@@ -195,7 +202,7 @@ string vardIvedimas(string ivedimas)
     return kint;
 }
 
-bool skKiekioTikrinimas(string laik)
+bool skKiekioTikrinimas(string laik) 
 {
     bool teisingas = true;
 
@@ -235,7 +242,7 @@ bool skTikrinimas(string laik)
     return teisingas;
 }
 
-int skIvedimas(string ivedimas, bool tarpinis)
+int skIvedimas(string ivedimas, bool tarpinis) 
 {
     string kint;
     bool laik;
@@ -258,7 +265,7 @@ int suma(vector <int> nd)
     return accumulate(nd.begin(), nd.end(), 0);
 }
 
-float vidurkis(vector <int> nd)
+float vidurkis(vector <int> nd) 
 {
     int n = nd.size();
 
@@ -267,7 +274,7 @@ float vidurkis(vector <int> nd)
     return vid;
 }
 
-float mediana(vector <int> nd)
+float mediana(vector <int> nd) 
 {
     float median;
     int n = nd.size();
@@ -289,7 +296,7 @@ float galutinis(float sum, int egz)
     return glt;
 }
 
-int atsitiktiniai()
+int atsitiktiniai() 
 {
     int paz;
     paz = 1 + rand() % ((10 + 1) - 1);
@@ -303,8 +310,8 @@ int ilgPavarde(vector <studentas> St)
     
     for(long int i = 0; i < ilgis; i++)
     {
-        if(St[i].pavard.length() > max)
-        max = St[i].pavard.length();
+        if(St[i].getPavard().length() > max)
+        max = St[i].getPavard().length();
     }
 
     return max;
@@ -317,20 +324,20 @@ int ilgVardas(vector <studentas> St)
     
     for(long int i = 0; i < ilgis; i++)
     {
-        if(St[i].vard.length() > max)
-        max = St[i].vard.length();
+        if(St[i].getVard().length() > max)
+        max = St[i].getVard().length();
     }
 
     return max;
 }
 
-void rikiavimas(vector <studentas> &St)
+void rikiavimas(vector <studentas> &St) 
 {
     sort(St.begin(), St.end(), lyginimasPavard());
 }
 
 
-void spausdinimas(vector <studentas> St, string failas)
+void spausdinimas(vector <studentas> St, string failas) 
 {
     rikiavimas(St);
     ofstream out (failas);
@@ -344,16 +351,18 @@ void spausdinimas(vector <studentas> St, string failas)
 
     for(long int i = 0; i < ilgis; i++)
     {
-        out << left << setw(maxpavard + 10) << St.back().pavard << setw(maxvard + 10) << St.back().vard << fixed << setprecision(2) << St.back().glt << endl;
+        out << left << setw(maxpavard + 10) << St.back().getPavard() << setw(maxvard + 10) << St.back().getVard() << fixed << setprecision(2) << St.back().getGlt() << endl;
         St.pop_back();
     }
+    cout<<"Atejau2!"<<endl;
 
 }
 
-int pasirinkimas()
+int pasirinkimas() 
 {
     cout << "Kuri faila norite naudoti? (1 - 5)" << endl;
-    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;" << endl;
+    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;" 
+    << endl << "4 - studentai1000000.txt;" << endl << "5 - studentai10000000.txt;" << endl;
     int skaicius = skIvedimas();
     return skaicius;
 }
@@ -382,7 +391,7 @@ bool skGenTikrinimas(string laik)
     return teisingas;
 }
 
-int skIvedimas()
+int skIvedimas() 
 {
     string kint;
     bool laik;
@@ -398,13 +407,14 @@ int skIvedimas()
     return skaicius;
 }
 
-void generavimas(int sk, string &failas)
+void generavimas(int sk, string &failas) 
 {
     long n;
     if(sk == 1) n = 1000;
     else if(sk == 2) n = 10000;
     else if(sk == 3) n = 100000;
-
+    else if(sk == 4) n = 1000000;
+    else if(sk == 5) n = 10000000;
 
     failas = "studentai" + to_string(n) + ".txt";
     
@@ -426,12 +436,12 @@ void generavimas(int sk, string &failas)
 
 }
 
-void skirstymas1(vector <studentas> St, vector <studentas> &Vargsai, vector <studentas> &Genijai)
+void skirstymas1(vector <studentas> St, vector <studentas> &Vargsai, vector <studentas> &Genijai) // i du atskirus, originalus nepakitesą
 {
     pradzia = std::chrono::steady_clock::now();
 
-    copy_if(St.begin(), St.end(), back_inserter(Genijai), [](studentas const& St) {return St.glt >= 5;});
-    copy_if(St.begin(), St.end(), back_inserter(Vargsai), [](studentas const& St) {return St.glt < 5;});
+    copy_if(St.begin(), St.end(), back_inserter(Genijai), [](studentas const& St) {return St.getGlt() >= 5;});
+    copy_if(St.begin(), St.end(), back_inserter(Vargsai), [](studentas const& St) {return St.getGlt() < 5;});
 
     double pabaiga = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - pradzia).count() / 1000.0;
     cout << endl <<"Sugaistas laikas studentams suskirstyti (1 - oji strategija): " << pabaiga << " s" << endl << endl;  
@@ -441,7 +451,7 @@ void skirstymas2(vector <studentas> &St, vector <studentas> &Genijai)
 {
     pradzia = std::chrono::steady_clock::now();  
 
-    auto it = stable_partition(St.begin(), St.end(), [](studentas const& St) {return St.glt < 5;});
+    auto it = stable_partition(St.begin(), St.end(), [](studentas const& St) {return St.getGlt() < 5;});
     Genijai.assign(it, St.end());
     St.erase(it, St.end());
 
@@ -449,13 +459,13 @@ void skirstymas2(vector <studentas> &St, vector <studentas> &Genijai)
     cout << endl <<"Sugaistas laikas studentams suskirstyti (2 - oji optimizuota strategija): " << pabaiga << " s" << endl << endl;    
 }
 
-void skirstymas3(vector <studentas> &St, vector <studentas> &Genijai)
+void skirstymas3(vector <studentas> &St, vector <studentas> &Genijai) 
 {
     long int n = St.size();
     pradzia = std::chrono::steady_clock::now();
 
-    copy_if(St.begin(), St.end(), back_inserter(Genijai), [](studentas const& St) {return St.glt >= 5;});
-    St.erase(remove_if(St.begin(), St.end(), [](studentas const& St) {return St.glt >= 5;}),St.end());
+    copy_if(St.begin(), St.end(), back_inserter(Genijai), [](studentas const& St) {return St.getGlt() >= 5;});
+    St.erase(remove_if(St.begin(), St.end(), [](studentas const& St) {return St.getGlt() >= 5;}),St.end());
 
     double pabaiga = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - pradzia).count() / 1000.0;
     cout << endl <<"Sugaistas laikas studentams suskirstyti(2 - oji strategija): " << pabaiga << " s" << endl << endl;  
