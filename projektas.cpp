@@ -1,7 +1,6 @@
 #include "funkcijos.h"
 
 
-
 int main()
 {
     vector <studentas> St;
