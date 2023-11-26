@@ -1,3 +1,6 @@
+#ifndef FUNKCIJOS_H
+#define FUNKCIJOS_H
+
 #include <iostream>
 #include <vector>
 #include <iomanip>
@@ -30,18 +33,40 @@ using std::stringstream;
 using std::ofstream;
 using std::to_string;
 
-
-struct studentas 
+class studentas
 {
-    string vard;
-    string pavard;
-    vector <int> nd;
-    int egz;
-    float glt;
+    private:
+        string vard;
+        string pavard;
+        vector <int> nd;
+        int egz;
+        float glt;
+
+    public:
+    studentas() : egz(0) {};
+ 
+    string getVard() const { return vard; }
+    void setVard(string v) { vard = v; }
+
+    string getPavard() const { return pavard; }
+    void setPavard(string p) { pavard = p; }
+
+    int getEgz() const { return egz; }
+    void setEgz(int e) { egz = e; }
+
+    vector <int> getNd() const { return nd; }
+    void setNd(vector <int> n) { nd = n; }
+
+    float getGlt() const { return glt; }
+    void setGlt(float g) { glt = g; }
+
+    ~studentas() {};
+
 };
 
+
 struct lyginimasPavard{
-    bool operator()(const studentas& a, const studentas& b){return(b.pavard.compare(a.pavard));}
+    bool operator()(const studentas& a, const studentas& b){return(b.getPavard().compare(a.getPavard()));}
 };
 
 //nuskaito duomenis is failo
@@ -92,3 +117,5 @@ bool skGenTikrinimas(string laik);
 void skirstymas1(vector <studentas> St, vector <studentas> &Vargsai, vector <studentas> &Genijai);
 void skirstymas2(vector <studentas> &St, vector <studentas> &Genijai);
 void skirstymas3(vector <studentas> &St, vector <studentas> &Genijai);
+
+#endif
