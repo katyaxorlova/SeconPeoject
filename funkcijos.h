@@ -44,7 +44,7 @@ class studentas
 
     public:
     studentas() : egz(0) {};
- 
+
     string getVard() const { return vard; }
     void setVard(string v) { vard = v; }
 
@@ -59,10 +59,27 @@ class studentas
 
     float getGlt() const { return glt; }
     void setGlt(float g) { glt = g; }
+    
+    studentas(const studentas& x): //kopijavimo konstruktorius
+        vard(x.vard), pavard(x.pavard),
+        egz(x.egz), glt(x.glt),
+        nd(x.nd) {}
+
+    studentas& operator = (const studentas& x) //kopijavimo priskyrimo konstruktorius
+    {
+        vard = x.vard;
+        pavard = x.pavard;
+        egz = x.egz;
+        glt = x.glt;
+        nd = x.nd;
+        return *this;
+    }
 
     ~studentas() {};
 
 };
+
+
 
 
 struct lyginimasPavard{
