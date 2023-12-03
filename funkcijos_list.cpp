@@ -367,8 +367,8 @@ void spausdinimas(list <studentas> St, string failas)
 
 int pasirinkimas()
 {
-    cout << "Kuri faila norite naudoti? (1 - 3)" << endl;
-    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;";
+    cout << "Kuri faila norite naudoti? (1 - 5)" << endl;
+    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;" << endl;
     int skaicius = skIvedimas();
     return skaicius;
 }
@@ -474,4 +474,3 @@ void skirstymas3(list <studentas> &St, list <studentas> &Genijai)
     double pabaiga = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - pradzia).count() / 1000.0;
     cout << endl <<"Sugaistas laikas studentams suskirstyti (2 - oji strategija): " << pabaiga << " s" << endl << endl;  
 }
-
