@@ -35,23 +35,30 @@ using std::ofstream;
 using std::to_string;
 using std::list;
 
-class studentas
+class zmogus
 {
-    private:
+    protected:
         string vard;
         string pavard;
+    public:
+        string getVard() const { return vard; }
+        void setVard(string v) { vard = v; }
+
+        string getPavard() const { return pavard; }
+        void setPavard(string p) { pavard = p; }
+
+        virtual ~zmogus() = 0;
+};
+
+class studentas : public zmogus
+{
+    private:
         vector <int> nd;
         int egz;
         float glt;
 
     public:
     studentas() : egz(0) {};
-   
-    string getVard() const { return vard; }
-    void setVard(string v) { vard = v; }
-
-    string getPavard() const { return pavard; }
-    void setPavard(string p) { pavard = p; }
 
     int getEgz() const { return egz; }
     void setEgz(int e) { egz = e; }
@@ -62,10 +69,13 @@ class studentas
     float getGlt() const { return glt; }
     void setGlt(float g) { glt = g; }
 
-    studentas(const studentas& x): //kopijavimo konstruktorius
-        vard(x.vard), pavard(x.pavard),
+    studentas(const studentas& x) : //kopijavimo konstruktorius
         egz(x.egz), glt(x.glt),
-        nd(x.nd) {}
+        nd(x.nd) 
+        {
+            vard = x.getVard();
+            pavard = x.getPavard();
+        }
 
     studentas& operator = (const studentas& x) //kopijavimo priskyrimo konstruktorius
     {
@@ -79,7 +89,6 @@ class studentas
 
     ~studentas() {};
 };
-
 
 struct lyginimasPavard{
     bool operator()(const studentas& a, const studentas& b){return(b.getPavard().compare(a.getPavard()));}
@@ -134,4 +143,5 @@ void skirstymas1(list <studentas> St, list <studentas> &Vargsai, list <studentas
 void skirstymas2(list <studentas> &St, list <studentas> &Genijai);
 void skirstymas3(list <studentas> &St, list <studentas> &Genijai);
 
+inline zmogus::~zmogus(){}
 #endif
