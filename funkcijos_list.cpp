@@ -367,8 +367,8 @@ void spausdinimas(list <studentas> St, string failas)
 
 int pasirinkimas()
 {
-    cout << "Kuri faila norite naudoti? (1 - 5)" << endl;
-    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;" << endl;
+    cout << "Kuri faila norite naudoti? (1 - 3)" << endl;
+    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;" ;
     int skaicius = skIvedimas();
     return skaicius;
 }
@@ -386,10 +386,10 @@ bool skGenTikrinimas(string laik)
             cout << "Klaida! Turite ivesti skaiciu" << endl;
             break;
         }
-        else if (teisingas == true && (stoi(laik) < 1 || stoi(laik) > 5))
+        else if (teisingas == true && (stoi(laik) < 1 || stoi(laik) > 3))
         {
             teisingas = false;
-            cout << "Klaida! Skaicius turi buti is intervalo [1-5]" << endl;
+            cout << "Klaida! Skaicius turi buti is intervalo [1-3]" << endl;
         }
         
     }
