@@ -1,3 +1,20 @@
+/**
+* @file projektas_list.cpp
+* Listo pagrindinis failas. Aprasyta main funkcija. 
+*/
+
+/*! \mainpage Studentų galutinio balo skaičiuoklė
+ *
+ * \section veikimas_sec Veikimo principas
+ *
+ *  - Programa skaičiuoja studentų galutinį balą, naudojant vidurkį arba medianą.
+ *  - Vartojas gali pasirinkti ar duomenis norės įvesti pats, ar duomenys bus nuskaityti.
+ *  - Jei vartotojas pasirenka duomenis įvesti pats, jis taip pat turi nurodyti kiek namų darbų pažymių norės įvesti. 
+ *  - Namų darbų pažymius ir egzamino balą vartotojas gali įvesti ranka arba pažymėti, jog jie būtų sugeneruoti automatiškai.
+ *  - Suskaičiavus studentų galutinį balą programa, pagal vartotojo pasirinktą strategiją, surūšiuoja studentus į „Genijus" ir „Vargšus".
+ *  - Rezultatai išvedami į atskirus tekstinius failus.
+ */
+
 #include "funkcijos_list.h"
 
 int main()
