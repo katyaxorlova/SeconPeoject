@@ -1,6 +1,9 @@
+/**
+* @file projektas.cpp
+* Vektoriaus pagrindinis failas. Aprasyta main funkcija. 
+*/
+
 #include "funkcijos.h"
-
-
 
 int main()
 {
