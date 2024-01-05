@@ -1,3 +1,8 @@
+/**
+* @file funkcijos_list.h
+* Listo funkciju failas. Aprasytos klases: zmogus ir studentas, funkciju prototipai.
+*/
+
 #ifndef FUNKCIJOS_LIST_H
 #define FUNKCIJOS_LIST_H
 
@@ -37,7 +42,7 @@ using std::list;
 
 class zmogus
 {
-    protected:
+    protected: //gali prieiti isvestines klases
         string vard;
         string pavard;
     public:
@@ -47,7 +52,7 @@ class zmogus
         string getPavard() const { return pavard; }
         void setPavard(string p) { pavard = p; }
 
-        virtual ~zmogus() = 0;
+        virtual ~zmogus() = 0; //virtualus destruktorius kuris padaro klase abstrakcia
 };
 
 class studentas : public zmogus
