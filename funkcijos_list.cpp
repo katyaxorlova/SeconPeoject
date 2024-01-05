@@ -1,11 +1,18 @@
+/**
+* @file funkcijos_list.cpp
+* Listo funkciju failas. Aprasytos pagrindines funkcijos, padedancios suskaiciuoti studentu galutini bala, suskirstyti juos ir kt. 
+*/
+
 #include "funkcijos_list.h"
 
+/**
+* Funkcija skirta apskaiciuoti galutini studento bala naudojant vidurki arba mediana.
+*/
 void vidMed(list <studentas> &St)
 {
     cout << "Ar norite apskaiciuoti vidurki (kitu atveju bus skaiciuojama mediana)? (t/n) ";
     long dydis = St.size();
-    if(true)
-    //patvirtinimas()
+    if(patvirtinimas())
     { 
 
         std::list<studentas>::iterator it;
@@ -27,6 +34,9 @@ void vidMed(list <studentas> &St)
     
 }
 
+/**
+* Funkcija skirta nuskaityti duomenis is failo.
+*/
 void nuskaitymas(list <studentas> &St, string failas)
 {
     stringstream buffer;
@@ -88,6 +98,9 @@ void nuskaitymas(list <studentas> &St, string failas)
 
 }
 
+/**
+* Pagabine funkcija.
+*/
 void pagalbine(list <studentas> &St)
 {
     studentas S;
@@ -149,6 +162,9 @@ void pagalbine(list <studentas> &St)
     
 }
 
+/**
+* Funkcija skirta tikrinti pasirinkima (t/n) - taip/ne.
+*/
 bool patvirtinimas()
 {
     bool tiesa = true;
@@ -175,6 +191,9 @@ bool patvirtinimas()
     return tiesa;
 }
 
+/**
+* Funkcija skirta tikrinti ar ivesta varda/pavarde sudaro tik raides.
+*/
 bool vardTikrinimas(string kint) 
 {
     bool teisingas = true;
@@ -193,6 +212,9 @@ bool vardTikrinimas(string kint)
     return teisingas;
 }
 
+/**
+* Funkcija skirta tikrinti ar duomenys ivesti teisingai.
+*/
 string vardIvedimas(string ivedimas) 
 {
     string kint;
@@ -206,6 +228,9 @@ string vardIvedimas(string ivedimas)
     return kint;
 }
 
+/**
+* Funkcija skirta tikrinti ar ivestas skaicius.
+*/
 bool skKiekioTikrinimas(string laik)
 {
     bool teisingas = true;
@@ -223,6 +248,9 @@ bool skKiekioTikrinimas(string laik)
     return teisingas;
 }
 
+/**
+* Funkcija skirta tikrinti ar ivestas skaicius ir ar jis priklauso intervalui [1 - 10].
+*/
 bool skTikrinimas(string laik) 
 {
     bool teisingas = true;
@@ -246,6 +274,9 @@ bool skTikrinimas(string laik)
     return teisingas;
 }
 
+/**
+* Funkcija skirta duomenu ivedimui (jei jie neteisingi - prasoma ivesti is naujo).
+*/
 int skIvedimas(string ivedimas, bool tarpinis)
 {
     string kint;
@@ -264,11 +295,17 @@ int skIvedimas(string ivedimas, bool tarpinis)
     return skaicius;
 }
 
+/**
+* Funkcija skirta apskaiciuoti namu darbu pazymiu suma.
+*/
 int suma(vector <int> nd) 
 {
     return accumulate(nd.begin(), nd.end(), 0);
 }
 
+/**
+* Funkcija skirta apskaiciuoti namu darbu pazymiu vidurki.
+*/
 float vidurkis(vector <int> nd)
 {
     int n = nd.size();
@@ -278,6 +315,9 @@ float vidurkis(vector <int> nd)
     return vid;
 }
 
+/**
+* Funkcija skirta apskaiciuoti namu darbu pazymiu mediana.
+*/
 float mediana(vector <int> nd)
 {
     float median;
@@ -293,6 +333,9 @@ float mediana(vector <int> nd)
     return median;
 }
 
+/**
+* Funkcija skirta apskaiciuoti galutini bala.
+*/
 float galutinis(float sum, int egz) 
 {
     float glt = float(0.4 * sum) + 0.6 * egz;
@@ -300,6 +343,9 @@ float galutinis(float sum, int egz)
     return glt;
 }
 
+/**
+* Funkcija skirta atsitiktiniu duomenu generavimui.
+*/
 int atsitiktiniai()
 {
     int paz;
@@ -307,6 +353,9 @@ int atsitiktiniai()
     return paz;
 }
 
+/**
+* Funkcija skirta rasti ilgiausia studento pavarde.
+*/
 int ilgPavarde(list <studentas> St)
 {
     int max = 0;
@@ -323,6 +372,9 @@ int ilgPavarde(list <studentas> St)
     return max;
 }
 
+/**
+* Funkcija skirta rasti ilgiausia studento varda.
+*/
 int ilgVardas(list <studentas> St)
 {
     int max = 0;
@@ -339,11 +391,17 @@ int ilgVardas(list <studentas> St)
     return max;
 }
 
+/**
+* Funkcija skirta isrikiuoti studentus pagal ju pavardes.
+*/
 void rikiavimas(list <studentas> &St)
 {
     St.sort(lyginimasPavard());
 }
 
+/**
+* Funkcija skirta duomenims isspausdinti.
+*/
 void spausdinimas(list <studentas> St, string failas)
 {
     rikiavimas(St);
@@ -365,15 +423,20 @@ void spausdinimas(list <studentas> St, string failas)
 
 }
 
+/**
+* Funkcija skirta pasirinkti kokio dydzio failas bus sugeneruotas.
+*/
 int pasirinkimas()
 {
-    cout << "Kuri faila norite naudoti? (1 - 3)" << endl;
-    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;" ;
+    cout << "Kuri faila norite naudoti? (1 - 5)" << endl;
+    cout << "1 - studentai1000.txt; " << endl << "2 - studentai10000.txt;" << endl << "3 - studentai100000.txt;" <<endl;
     int skaicius = skIvedimas();
     return skaicius;
 }
 
-
+/**
+* Funkcija skirta tikrinti failo generavimui ivesta skaiciu.
+*/
 bool skGenTikrinimas(string laik) 
 {
     bool teisingas = true;
@@ -397,6 +460,9 @@ bool skGenTikrinimas(string laik)
     return teisingas;
 }
 
+/**
+* Funkcija skirta duomenu ivedimui (jei jie neteisingi - prasoma ivesti is naujo).
+*/
 int skIvedimas()
 {
     string kint;
@@ -413,12 +479,16 @@ int skIvedimas()
     return skaicius;
 }
 
+/**
+* Funkcija skirta generuoti failus.
+*/
 void generavimas(int sk, string &failas)
 {
     long n;
     if(sk == 1) n = 1000;
     else if(sk == 2) n = 10000;
     else if(sk == 3) n = 100000;
+
 
     failas = "studentai" + to_string(n) + ".txt";
     
@@ -440,6 +510,9 @@ void generavimas(int sk, string &failas)
 
 }
 
+/**
+* Funkcija skirta suskirstyti studentus pagal ju galutini bala, naudojant I - aja strategija.
+*/
 void skirstymas1(list <studentas> St, list <studentas> &Vargsai, list <studentas> &Genijai)
 {
     pradzia = std::chrono::steady_clock::now();
@@ -451,6 +524,9 @@ void skirstymas1(list <studentas> St, list <studentas> &Vargsai, list <studentas
     cout << endl <<"Sugaistas laikas studentams suskirstyti (1 - oji strategija): " << pabaiga << " s" << endl << endl;  
 }
 
+/**
+* Funkcija skirta suskirstyti studentus pagal ju galutini bala, naudojant II - aja strategija.
+*/
 void skirstymas2(list <studentas> &St, list <studentas> &Genijai)
 {
     pradzia = std::chrono::steady_clock::now();  
@@ -463,6 +539,9 @@ void skirstymas2(list <studentas> &St, list <studentas> &Genijai)
     cout << endl <<"Sugaistas laikas studentams suskirstyti (2 - oji optimizuota strategija): " << pabaiga << " s" << endl << endl;    
 }
 
+/**
+* Funkcija skirta suskirstyti studentus pagal ju galutini bala, naudojant III - aja strategija.
+*/
 void skirstymas3(list <studentas> &St, list <studentas> &Genijai)
 {
     long int n = St.size();
